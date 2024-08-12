@@ -5,6 +5,7 @@ const _ = require('lodash');
 require('dotenv').config();
 const errorHandler = require('./middlewares/middleware.error');
 const ipLoggerMiddleware = require('./middlewares/middleware.ip');
+const initializeDynamoDB = require('./utils/util.connection');
 
 const app = express();
 const PORT = process.env.PORT || 1234;
