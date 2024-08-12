@@ -1,4 +1,4 @@
-const AWS = require('aws-sdk');
+const dynamoose = require('dynamoose');
 
 const initializeDynamoDB = () => {
     try {
@@ -6,13 +6,15 @@ const initializeDynamoDB = () => {
             throw new Error('AWS Credentials missing!');
         }
 
-        AWS.config.update({
-            region: process.env.AWS_REGION,
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        const dynamoDb = new dynamoose.aws.ddb.DynamoDB({
+            "credentials": {
+                "accessKeyId": process.env.AWS_ACCESS_KEY_ID,
+                "secretAccessKey": process.env.AWS_SECRET_ACCESS_KEY
+            },
+            "region": process.env.AWS_REGION
         });
 
-        const dynamoDb = new AWS.DynamoDB.DocumentClient();
+        dynamoose.aws.ddb.set(dynamoDb);
 
         console.log('DynamoDB client initialized successfully');
         return dynamoDb;

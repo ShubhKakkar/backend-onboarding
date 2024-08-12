@@ -3,15 +3,19 @@ const { Server } = require("socket.io");
 const http = require('http');
 const _ = require('lodash');
 require('dotenv').config();
+require('module-alias/register')
 const errorHandler = require('./middlewares/middleware.error');
 const ipLoggerMiddleware = require('./middlewares/middleware.ip');
 const initializeDynamoDB = require('./utils/util.connection');
+const cors = require('cors')
+const userRoutes = require('./routes/auth/route.auth');
 
 const app = express();
 const PORT = process.env.PORT || 1234;
 
 const httpServer = http.createServer(app);
 
+app.use(cors({ origin: "*" }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(ipLoggerMiddleware);
@@ -23,6 +27,8 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.send({ root: "ok" });
 });
+
+app.use('/api', userRoutes);
 
 app.use((req, res) => {
     res.redirect('/');
