@@ -6,13 +6,15 @@ const initializeDynamoDB = () => {
             throw new Error('AWS Credentials missing!');
         }
 
-        const dynamoDb = new dynamoose.aws.ddb.DynamoDB({
-            "credentials": {
-                "accessKeyId": process.env.AWS_ACCESS_KEY_ID,
-                "secretAccessKey": process.env.AWS_SECRET_ACCESS_KEY
-            },
-            "region": process.env.AWS_REGION
-        });
+        // const dynamoDb = new dynamoose.aws.ddb.DynamoDB({
+        //     "credentials": {
+        //         "accessKeyId": process.env.AWS_ACCESS_KEY_ID,
+        //         "secretAccessKey": process.env.AWS_SECRET_ACCESS_KEY
+        //     },
+        //     "region": process.env.AWS_REGION
+        // });
+
+        const dynamoDb = dynamoose.aws.ddb.local();
 
         dynamoose.aws.ddb.set(dynamoDb);
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { createUser, getUserByEmail, listUsers } = require('@controllers/auth/controller.auth');
 
-router.post('/users', async (req, res) => {
+router.post('/auth/sign-up', async (req, res) => {
   const { status, data, error, details } = await createUser(req.body);
   if (status === 201) {
     res.status(201).json(data);

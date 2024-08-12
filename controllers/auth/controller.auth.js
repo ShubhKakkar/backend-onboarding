@@ -1,15 +1,21 @@
-const { User } = require('@models/auth/model.user');
+const User = require('@models/auth/model.user');
 
 const createUser = async (userData) => {
+  const { email, password } = userData;
+
+  if (!email || !password) {
+    return { status: 400, error: 'Email and password are required.' };
+  }
+
   try {
-    const newUser = await User.create(userData, {
-      condition: new dynamoose.Condition().attribute('email').not().exists(),
-    });
-    return { status: 201, data: newUser };
-  } catch (error) {
-    if (error.message.includes('The conditional request failed')) {
+    const existingUser = await User.query("email").contains(email).exec();
+    if (existingUser) {
       return { status: 409, error: 'A user with this email already exists.' };
     }
+
+    const newUser = await User.create(userData);
+    return { status: 201, data: newUser };
+  } catch (error) {
     return { status: 500, error: 'Error creating user', details: error.message };
   }
 };
