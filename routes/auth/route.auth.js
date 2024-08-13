@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createUser, getUserByEmail, listUsers } = require('@controllers/auth/controller.auth');
+const { createUser, loginUser } = require('@controllers/auth/controller.auth');
 
 router.post('/auth/sign-up', async (req, res) => {
   const { status, data, error, details } = await createUser(req.body);
@@ -11,22 +11,14 @@ router.post('/auth/sign-up', async (req, res) => {
   }
 });
 
-router.get('/users/:email', async (req, res) => {
-  const { status, data, error, details } = await getUserByEmail(req.params.email);
+router.post('/auth/sign-in', async (req, res) => {
+  const { status, data, error, details } = await loginUser(req.body);
   if (status === 200) {
     res.status(200).json(data);
-  } else {
-    res.status(status).json({ error, details });
   }
-});
-
-router.get('/users', async (req, res) => {
-  const { status, data, error, details } = await listUsers();
-  if (status === 200) {
-    res.status(200).json(data);
-  } else {
-    res.status(status).json({ error, details });
+  else {
+    res.status(status).json({ error, details })
   }
-});
+})
 
 module.exports = router;

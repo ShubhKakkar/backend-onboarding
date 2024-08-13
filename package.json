@@ -19,10 +19,12 @@
   "dependencies": {
     "aws-sdk": "^2.1672.0",
     "babel-plugin-module-resolver": "^5.0.2",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "dynamoose": "^4.0.1",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "module-alias": "^2.2.3",
     "moment": "^2.30.1",
