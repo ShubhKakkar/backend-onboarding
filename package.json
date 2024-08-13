@@ -29,6 +29,7 @@
     "module-alias": "^2.2.3",
     "moment": "^2.30.1",
     "socket.io": "^4.7.5",
+    "uuidv4": "^6.2.13",
     "validator": "^13.12.0",
     "winston": "^3.14.1",
     "winston-daily-rotate-file": "^5.0.0"

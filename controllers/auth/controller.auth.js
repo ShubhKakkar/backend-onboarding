@@ -15,14 +15,13 @@ const createUser = async (userData) => {
   }
 
   try {
-    const existingUser = await User.get(email);
+    const existingUser = await User.query('email').eq(email).exec();
 
-    if (existingUser) {
+    if (existingUser.count > 0) {
       return { status: 409, error: 'A user with this email already exists.' };
     }
 
     const hash = await bcrypt.hash(password, saltRounds);
-
     const newUser = new User({
       email,
       password: hash
@@ -42,22 +41,24 @@ const loginUser = async (credentials) => {
     return { status: 400, error: 'Email and password are required.' };
   }
   try {
-    const user = await User.get(email);
+    const user = await User.query('email').eq(email).exec();
 
-    if (!user) {
+    if (user.count === 0) {
       return { status: 401, error: 'Invalid email or password.' };
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const foundUser = user[0]
+
+    const isMatch = await bcrypt.compare(password, foundUser.password);
 
     if (!isMatch) {
       return { status: 401, error: 'Invalid email or password.' };
     }
 
     const token = jwt.sign(
-      { email: user.email },
+      { id: foundUser.id, email: foundUser.email },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '1d' }
     );
 
     return { status: 200, data: { token } };

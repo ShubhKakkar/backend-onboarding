@@ -1,7 +1,13 @@
 const dynamoose = require('dynamoose');
 const validator = require('validator');
+const { v4: uuidv4 } = require('uuid');
 
 const userSchema = new dynamoose.Schema({
+  id: {
+    type: String,
+    hashKey: true,
+    default: uuidv4
+  },
   email: {
     type: String,
     required: true,
@@ -11,11 +17,10 @@ const userSchema = new dynamoose.Schema({
       }
       return true;
     },
-    hashKey: true,
     index: {
       global: true,
       project: true,
-      name: 'EmailIndex',
+      name: 'UserEmailIndex',
       unique: true,
     }
   },

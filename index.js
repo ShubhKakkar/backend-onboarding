@@ -9,6 +9,7 @@ const ipLoggerMiddleware = require('./middlewares/middleware.ip');
 const initializeDynamoDB = require('./utils/util.connection');
 const cors = require('cors')
 const userRoutes = require('./routes/auth/route.auth');
+const storeRoutes = require('./routes/store/route.store');
 
 const app = express();
 const PORT = process.env.PORT || 1234;
@@ -28,7 +29,8 @@ app.get('/', (req, res) => {
     res.send({ root: "ok" });
 });
 
-app.use('/api', userRoutes);
+app.use('/api/auth', userRoutes);
+app.use('/api/store', storeRoutes);
 
 app.use((req, res) => {
     res.redirect('/');
