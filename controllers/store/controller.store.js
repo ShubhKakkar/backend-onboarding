@@ -34,7 +34,7 @@ const fetchStore = async ({ userId }) => {
       return { status: 404, error: 'Store not found' };
     }
   } catch (error) {
-    return { status: 500, error: 'Error creating store', details: error.message };
+    return { status: 500, error: 'Error fetching store', details: error.message };
   }
 };
 

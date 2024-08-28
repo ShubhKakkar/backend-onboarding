@@ -10,6 +10,8 @@ const initializeDynamoDB = require('./utils/util.connection');
 const cors = require('cors')
 const userRoutes = require('./routes/auth/route.auth');
 const storeRoutes = require('./routes/store/route.store');
+const businessRoutes = require('./routes/store/route.business');
+const cameraRoutes = require('./routes/camera/route.camera');
 
 const app = express();
 const PORT = process.env.PORT || 1234;
@@ -31,6 +33,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', userRoutes);
 app.use('/api/store', storeRoutes);
+app.use('/api/business', businessRoutes);
+app.use('/api/camera', cameraRoutes);
 
 app.use((req, res) => {
     res.redirect('/');
