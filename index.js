@@ -12,6 +12,7 @@ const userRoutes = require('./routes/auth/route.auth');
 const storeRoutes = require('./routes/store/route.store');
 const businessRoutes = require('./routes/store/route.business');
 const cameraRoutes = require('./routes/camera/route.camera');
+const { businesses, roles, cameraProviders, cameraFeatures } = require('./configs/index');
 
 const app = express();
 const PORT = process.env.PORT || 1234;
@@ -30,6 +31,31 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.send({ root: "ok" });
 });
+
+app.get('/api/getList', (req, res) => {
+    const { type } = req.query;
+
+    let response;
+    switch (type) {
+        case 'businesses':
+            response = { businesses };
+            break;
+        case 'roles':
+            response = { roles };
+            break;
+        case 'cameraProviders':
+            response = { cameraProviders };
+            break;
+        case 'cameraFeatures':
+            response = { cameraFeatures };
+            break;
+        default:
+            return res.status(400).json({ error: 'Invalid type specified' });
+    }
+
+    res.status(200).json(response);
+});
+
 
 app.use('/api/auth', userRoutes);
 app.use('/api/store', storeRoutes);
